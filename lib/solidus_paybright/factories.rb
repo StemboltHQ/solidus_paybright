@@ -1,6 +1,10 @@
 FactoryGirl.define do
-  # Define your Spree extensions Factories within this file to enable applications, and other extensions to use and override them.
-  #
-  # Example adding this to your spec_helper will load these Factories for use:
-  # require 'solidus_paybright/factories'
+  factory :paybright_payment_method, class: Spree::PaymentMethod::Paybright do
+    name "Paybright"
+  end
+
+  factory :paybright_payment, class: Spree::Payment do
+    association(:payment_method, factory: :paybright_payment_method)
+    order
+  end
 end

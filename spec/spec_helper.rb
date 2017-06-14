@@ -69,6 +69,18 @@ RSpec.configure do |config|
   config.before :suite do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation
+
+    Spree.config do |c|
+      c.static_model_preferences.add(
+        Spree::PaymentMethod::Paybright,
+        "paybright_credentials",
+        api_key: "api-key",
+        api_token: "api-token",
+        shop_country_code: "CA",
+        shop_name: "Test shop",
+        test_mode: true
+      )
+    end
   end
 
   # Before each spec check if it is a Javascript test and switch between using database transactions or not where necessary.
