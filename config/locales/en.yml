@@ -1,4 +1,14 @@
 en:
+  activerecord:
+    attributes:
+      spree/paybright_contract:
+        account_id: Paybright account ID
+        currency: Currency
+        test: Test mode
+        amount: Amount
+        gateway_reference: Gateway reference
+        result: result
+        message: Message
   spree:
     api_key: API key
     api_token: API token

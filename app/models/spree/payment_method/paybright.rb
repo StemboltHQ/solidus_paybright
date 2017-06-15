@@ -7,7 +7,7 @@ module Spree
     preference :test_mode, :boolean, default: true
 
     def payment_source_class
-      nil
+      Spree::PaybrightContract
     end
 
     def source_required?

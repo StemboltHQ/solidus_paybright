@@ -1,0 +1,32 @@
+<% contract = payment.source %>
+
+<fieldset data-hook="paybright">
+  <legend align="center"><%= Spree::PaybrightContract.model_name.human %></legend>
+
+  <div class="row">
+    <div class="col-4">
+      <dl>
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:account_id) %>:</dt>
+        <dd><%= contract.account_id %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:currency) %>:</dt>
+        <dd><%= contract.currency %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:test) %>:</dt>
+        <dd><%= contract.test.to_s %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:amount) %>:</dt>
+        <dd><%= contract.amount %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:gateway_reference) %>:</dt>
+        <dd><%= contract.gateway_reference %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:result) %>:</dt>
+        <dd><%= contract.result %></dd>
+
+        <dt><%= Spree::PaybrightContract.human_attribute_name(:message) %>:</dt>
+        <dd><%= contract.message %></dd>
+      </dl>
+    </div>
+  </div>
+</fieldset>
