@@ -1,0 +1,63 @@
+module Spree
+  class PaybrightController < Spree::BaseController
+    # Server2server call that gets parameters about the results of the Paybright
+    # transaction.
+    def callback
+      result, message = handle_callback_params!
+      status = result ? :ok : :bad_request
+      render plain: message, status: status
+    end
+
+    # The user is redirected here after completing the full Paybright checkout.
+    # It also gets the same parameters of #callback.
+    def complete
+      handle_callback_params!
+      redirect_to redirect_path(@payment.try(:order))
+    end
+
+    # The user is redirected here after failing some intermediate step of the
+    # Paybright checkout.
+    def cancel
+      payment = Spree::Payment.find_by(id: params[:payment_id])
+      redirect_to redirect_path(payment.try(:order))
+    end
+
+    private
+
+    def paybright_params
+      params.permit(
+        :x_account_id, :x_reference, :x_currency, :x_test, :x_amount,
+        :x_gateway_reference, :x_timestamp, :x_result, :x_signature, :x_message
+      )
+    end
+
+    def redirect_path(order)
+      return cart_path unless order
+      order.complete? ? order_path(order) : checkout_state_path(order.state)
+    end
+
+    def handle_callback_params!
+      @payment = Spree::Payment.find_by(id: paybright_params[:x_reference])
+
+      valid, error = SolidusPaybright::CallbackValidator.new(paybright_params).call
+      unless valid
+        logger.debug "Paybright: #{error}"
+        return [false, error]
+      end
+
+      @payment.update_attributes!(
+        response_code: paybright_params[:x_gateway_reference],
+        amount: paybright_params[:x_amount]
+      )
+      @payment.complete!
+      advance_and_complete(@payment.order)
+
+      [true, ""]
+    end
+
+    def advance_and_complete(order)
+      order.next!
+      order.complete! if order.can_complete?
+    end
+  end
+end
