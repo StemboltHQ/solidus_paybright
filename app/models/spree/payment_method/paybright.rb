@@ -17,5 +17,23 @@ module Spree
     def auto_capture
       false
     end
+
+    def redirect_url(payment)
+      uri = URI.parse(paybright_redirect_url)
+      params = SolidusPaybright::ParamsHelper.new(payment).build_redirect_params
+      uri.query = params.to_query
+
+      uri.to_s
+    end
+
+    private
+
+    def paybright_redirect_url
+      if preferred_test_mode
+        SolidusPaybright::Config.test_redirect_url
+      else
+        SolidusPaybright::Config.live_redirect_url
+      end
+    end
   end
 end

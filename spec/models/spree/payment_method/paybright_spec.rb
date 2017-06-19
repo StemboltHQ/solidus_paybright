@@ -1,11 +1,44 @@
 require "spec_helper"
 
 describe Spree::PaymentMethod::Paybright, type: :model do
+  let(:payment_method) { create(:paybright_payment_method, preference_source: "paybright_credentials") }
+  let(:payment) { create(:paybright_payment, payment_method: payment_method) }
+
   it "has a valid factory" do
     expect(build(:paybright_payment_method)).to be_valid
   end
 
   it "has a valid payment factory " do
     expect(build(:paybright_payment)).to be_valid
+  end
+
+  describe "#redirect_url" do
+    before do
+      allow_any_instance_of(Spree::Order).to receive_messages(total: 110)
+    end
+
+    context "When in test mode" do
+      it "returns the test URL with params" do
+        expect(
+          payment_method.redirect_url(payment)
+        ).to start_with(
+          "https://dev.healthsmartfinancial.com/CheckOut/AppForm.aspx?x_account_id=api-key&x_amount=110.00&x_currency=USD&"
+        )
+      end
+    end
+
+    context "When not in test mode" do
+      before do
+        allow(payment_method).to receive_messages preferred_test_mode: false
+      end
+
+      it "returns the live URL with params" do
+        expect(
+          payment_method.redirect_url(payment)
+        ).to start_with(
+          "?x_account_id=api-key&x_amount=110.00&x_currency=USD&" # TODO
+        )
+      end
+    end
   end
 end
