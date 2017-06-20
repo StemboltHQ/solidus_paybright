@@ -9,5 +9,15 @@ module SolidusPaybright
     def live_redirect_url
       @live_redirect_url ||= "" # TODO
     end
+
+    attr_writer :test_api_endpoint
+    def test_api_endpoint
+      @test_api_endpoint ||= "https://devapi.paybright.com/api/"
+    end
+
+    attr_writer :live_api_endpoint
+    def live_api_endpoint
+      @live_api_endpoint ||= "" # TODO
+    end
   end
 end
