@@ -1,5 +1,9 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
-  hello: Hello world
+  spree:
+    api_key: API key
+    api_token: API token
+    shop_country_code: Shop country code
+    shop_name: Shop name
+    paybright:
+      successful_action: Successful Paybright %{action} (transaction_id %{id})
+      unsuccessful_action: Unsuccessful Paybright %{action} (transaction_id %{id})

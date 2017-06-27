@@ -9,6 +9,14 @@ module SolidusPaybright
       g.test_framework :rspec
     end
 
+    initializer "spree.solidus_paybright.environment", before: :load_config_initializers do |_app|
+      SolidusPaybright::Config = SolidusPaybright::Configuration.new
+    end
+
+    initializer "spree.solidus_paybright.payment_methods", after: "spree.register.payment_methods" do |app|
+      app.config.spree.payment_methods << Spree::PaymentMethod::Paybright
+    end
+
     def self.activate
       Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)

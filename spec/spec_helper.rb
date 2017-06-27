@@ -46,6 +46,7 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::TestingSupport::UrlHelpers
+  config.include Spree::TestingSupport::ControllerRequests, type: :controller
 
   # == Mock Framework
   #
@@ -69,6 +70,20 @@ RSpec.configure do |config|
   config.before :suite do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with :truncation
+
+    Spree.config do |c|
+      c.static_model_preferences.add(
+        Spree::PaymentMethod::Paybright,
+        "paybright_credentials",
+        api_key: "api-key",
+        api_token: "api-token",
+        shop_country_code: "CA",
+        shop_name: "Test shop",
+        test_mode: true
+      )
+    end
+
+    Spree::Core::Engine.routes.default_url_options = { host: "example.com" }
   end
 
   # Before each spec check if it is a Javascript test and switch between using database transactions or not where necessary.
