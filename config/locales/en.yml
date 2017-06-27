@@ -4,3 +4,6 @@ en:
     api_token: API token
     shop_country_code: Shop country code
     shop_name: Shop name
+    paybright:
+      successful_action: Successful Paybright %{action} (transaction_id %{id})
+      unsuccessful_action: Unsuccessful Paybright %{action} (transaction_id %{id})

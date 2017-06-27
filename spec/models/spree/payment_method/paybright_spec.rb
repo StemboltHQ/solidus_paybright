@@ -41,4 +41,32 @@ describe Spree::PaymentMethod::Paybright, type: :model do
       end
     end
   end
+
+  describe "#actions" do
+    it "returns the supported actions" do
+      expect(payment_method.actions).to eq(["void", "credit"])
+    end
+  end
+
+  describe "#void" do
+    it "calls the API client" do
+      expect_any_instance_of(
+        SolidusPaybright::ApiClient
+      ).to receive(:void!).with("transaction-id").and_return(true)
+
+      response = payment_method.void("transaction-id")
+      expect(response).to be_success
+    end
+  end
+
+  describe "#credit" do
+    it "calls the API client" do
+      expect_any_instance_of(
+        SolidusPaybright::ApiClient
+      ).to receive(:refund!).with("transaction-id", 123.45).and_return(true)
+
+      response = payment_method.credit(123_45, "transaction-id")
+      expect(response).to be_success
+    end
+  end
 end

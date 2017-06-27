@@ -18,12 +18,45 @@ module Spree
       false
     end
 
+    # @return [Array<String>] the actions available on this payment method
+    def actions
+      %w(void credit)
+    end
+
     def redirect_url(payment)
       uri = URI.parse(paybright_redirect_url)
       params = SolidusPaybright::ParamsHelper.new(payment).build_redirect_params
       uri.query = params.to_query
 
       uri.to_s
+    end
+
+    def void(transaction_id, _gateway_options = {})
+      if api_client.void!(transaction_id)
+        response(
+          true,
+          Spree.t("paybright.successful_action", action: "void", id: transaction_id)
+        )
+      else
+        response(
+          false,
+          Spree.t("paybright.unsuccessful_action", action: "void", id: transaction_id)
+        )
+      end
+    end
+
+    def credit(amount_in_cents, transaction_id, _gateway_options = {})
+      if api_client.refund!(transaction_id, amount_in_cents / 100.0)
+        response(
+          true,
+          Spree.t("paybright.successful_action", action: "credit", id: transaction_id)
+        )
+      else
+        response(
+          false,
+          Spree.t("paybright.unsuccessful_action", action: "credit", id: transaction_id)
+        )
+      end
     end
 
     private
@@ -34,6 +67,26 @@ module Spree
       else
         SolidusPaybright::Config.live_redirect_url
       end
+    end
+
+    def api_url
+      if preferred_test_mode
+        SolidusPaybright::Config.test_api_endpoint
+      else
+        SolidusPaybright::Config.live_api_endpoint
+      end
+    end
+
+    def api_client
+      SolidusPaybright::ApiClient.new(
+        preferred_api_key,
+        preferred_api_token,
+        api_url
+      )
+    end
+
+    def response(success, message)
+      ActiveMerchant::Billing::Response.new(success, message, {}, {})
     end
   end
 end
