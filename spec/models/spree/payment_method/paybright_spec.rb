@@ -36,7 +36,7 @@ describe Spree::PaymentMethod::Paybright, type: :model do
         expect(
           payment_method.redirect_url(payment)
         ).to start_with(
-          "?x_account_id=api-key&x_amount=110.00&x_currency=USD&" # TODO
+          "https://app.healthsmartfinancial.com/checkout/appform.aspx?x_account_id=api-key&x_amount=110.00&x_currency=USD&"
         )
       end
     end
