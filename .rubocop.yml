@@ -230,6 +230,12 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Enabled: false
 
+Bundler/OrderedGems:
+  Enabled: false
+
+Bundler/DuplicatedGem:
+  Enabled: false
+
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
