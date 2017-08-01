@@ -1,8 +1,10 @@
 require "spec_helper"
 
 describe SolidusPaybright::ParamsHelper do
-  let(:payment_method) { create(:paybright_payment_method, preference_source: "paybright_credentials") }
-  let(:payment) { create(:paybright_payment, payment_method: payment_method) }
+  let(:order) { build_stubbed(:order, total: 110, number: "R123456789", email: "user@example.com") }
+  let(:payment_method) { build_stubbed(:paybright_payment_method, preference_source: "paybright_credentials") }
+  let(:payment) { build_stubbed(:paybright_payment, order: order, payment_method: payment_method) }
+
   subject { described_class.new(payment) }
 
   describe "#new" do
@@ -13,14 +15,6 @@ describe SolidusPaybright::ParamsHelper do
   end
 
   describe "#build_redirect_params" do
-    before do
-      allow_any_instance_of(Spree::Order).to receive_messages(
-        total: 110,
-        number: "R123456789",
-        email: "user@example.com"
-      )
-    end
-
     it "build the correct parameters for the order" do
       params = subject.build_redirect_params
       expect(params["x_account_id"]).to eq("api-key")
@@ -39,6 +33,14 @@ describe SolidusPaybright::ParamsHelper do
     it "rejects blank parameters" do # required by Paybright
       allow_any_instance_of(Spree::Order).to receive_messages email: ""
       expect(subject.build_redirect_params.key?("x_customer_email")).to be false
+    end
+
+    context "order has store credit applied" do
+      before { allow(order).to receive(:total_applicable_store_credit) { 10 } }
+
+      it "subtracts the credit from the total passed to Paybright" do
+        expect(subject.build_redirect_params["x_amount"]).to eq("100.00")
+      end
     end
   end
 end

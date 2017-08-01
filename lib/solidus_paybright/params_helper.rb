@@ -15,7 +15,7 @@ module SolidusPaybright
       params = {
         # mandatory parameters
         "x_account_id" => credentials[:api_key],
-        "x_amount" => order.total.to_money.to_s,
+        "x_amount" => order.order_total_after_store_credit.to_money.to_s,
         "x_currency" => order.currency,
         "x_reference" => @payment.id,
         "x_shop_country" => credentials[:shop_country_code],
