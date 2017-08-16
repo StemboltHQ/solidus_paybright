@@ -1,5 +1,8 @@
 module Spree
   class PaybrightController < Spree::BaseController
+    # We can't use CSRF protection on a route that's hit by an external service
+    skip_before_action :verify_authenticity_token, only: :callback, raise: false
+
     # Server2server call that gets parameters about the results of the Paybright
     # transaction.
     def callback
