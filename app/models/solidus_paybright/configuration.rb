@@ -7,7 +7,7 @@ module SolidusPaybright
 
     attr_writer :live_redirect_url
     def live_redirect_url
-      @live_redirect_url ||= "https://app.healthsmartfinancial.com/checkout/appform.aspx"
+      @live_redirect_url ||= "https://app.paybright.com/checkout/appform.aspx"
     end
 
     attr_writer :test_api_endpoint
