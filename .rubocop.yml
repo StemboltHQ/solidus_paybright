@@ -44,7 +44,7 @@ Performance/Count:
 Style/RaiseArgs:
   Enabled: false
 
-Style/OpMethod:
+Naming/BinaryOperatorParameterName:
   Enabled: false
 
 # We can use good judgement here
