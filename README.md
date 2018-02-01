@@ -1,5 +1,7 @@
 # SolidusPaybright
 
+[![Build Status](https://travis-ci.org/StemboltHQ/solidus_paybright.svg?branch=master)](https://travis-ci.org/StemboltHQ/solidus_paybright)
+
 This extension provides the [Paybright](https://paybright.com/) payment option
 for your Solidus storefront
 
