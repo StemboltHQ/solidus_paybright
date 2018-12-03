@@ -2,7 +2,7 @@ module SolidusPaybright
   class Configuration < Spree::Preferences::Configuration
     attr_writer :test_redirect_url
     def test_redirect_url
-      @test_redirect_url ||= "https://dev.healthsmartfinancial.com/CheckOut/AppForm.aspx"
+      @test_redirect_url ||= "https://sandbox.paybright.com/CheckOut/AppForm.aspx"
     end
 
     attr_writer :live_redirect_url
