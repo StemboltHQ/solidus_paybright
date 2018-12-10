@@ -36,7 +36,7 @@ module Spree
 
     def redirect_path(order)
       return cart_path unless order
-      order.complete? ? order_path(order) : checkout_state_path(order.state)
+      order.complete? ? order_url(order, subdomain: request.subdomain) : checkout_state_path(order.state)
     end
 
     def handle_callback_params!
