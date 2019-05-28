@@ -13,7 +13,7 @@ module SolidusPaybright
     attr_writer :test_api_endpoint
     def test_api_endpoint
       # no trailing slash
-      @test_api_endpoint ||= "https://devapi.paybright.com/api"
+      @test_api_endpoint ||= "https://sandbox.api.paybright.com/api"
     end
 
     attr_writer :live_api_endpoint
