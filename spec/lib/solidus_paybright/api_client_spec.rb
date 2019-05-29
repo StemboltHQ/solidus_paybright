@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe SolidusPaybright::ApiClient do
-  let(:base_url) { "https://devapi.paybright.com/api" }
+  let(:base_url) { "https://sandbox.api.paybright.com/api" }
 
   subject { described_class.new("api-key", "api-token", base_url) }
 
