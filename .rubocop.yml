@@ -4,7 +4,7 @@ AllCops:
   Exclude:
     - 'spec/dummy/**/*'
     - 'vendor/bundle/**/*'
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 # Sometimes I believe this reads better
 # This also causes spacing issues on multi-line fixes
@@ -36,9 +36,6 @@ Style/WordArray:
   Enabled: false
 
 Style/ConditionalAssignment:
-  Enabled: false
-
-Performance/Count:
   Enabled: false
 
 Style/RaiseArgs:
@@ -73,10 +70,10 @@ Layout/ClosingParenthesisIndentation:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Enabled: false
 
 Layout/AlignHash:
