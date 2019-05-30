@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusPaybright
   class CallbackValidator
     # @param params [Hash] The Paybright callback params

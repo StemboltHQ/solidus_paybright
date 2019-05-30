@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   class PaybrightController < Spree::BaseController
     # We can't use CSRF protection on a route that's hit by an external service
@@ -36,6 +38,7 @@ module Spree
 
     def redirect_path(order)
       return cart_path unless order
+
       order.complete? ? order_path(order) : checkout_state_path(order.state)
     end
 
