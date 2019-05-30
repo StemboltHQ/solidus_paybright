@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusPaybright
   class Configuration < Spree::Preferences::Configuration
     attr_writer :test_redirect_url

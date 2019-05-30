@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusPaybright
   module PaymentMethodDecorator
     def redirect_url(_payment)

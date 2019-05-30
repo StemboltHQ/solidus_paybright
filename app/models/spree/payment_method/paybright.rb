@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Spree
   class PaymentMethod::Paybright < Spree::PaymentMethod
     preference :api_key, :string

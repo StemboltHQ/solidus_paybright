@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :paybright_payment_method, class: Spree::PaymentMethod::Paybright do
     name "Paybright"

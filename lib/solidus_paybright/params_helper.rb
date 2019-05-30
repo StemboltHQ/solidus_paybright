@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SolidusPaybright
   class ParamsHelper
     include Spree::Core::Engine.routes.url_helpers
