@@ -14,7 +14,11 @@ module Spree
     # The user is redirected here after completing the full Paybright checkout.
     # It also gets the same parameters of #callback.
     def complete
-      handle_callback_params!
+      result, message = handle_callback_params!
+      if !result
+        flash[:error] = message
+      end
+
       redirect_to redirect_path(@payment.try(:order))
     end
 
@@ -52,8 +56,17 @@ module Spree
         response_code: paybright_params[:x_gateway_reference],
         amount: paybright_params[:x_amount]
       )
-      @payment.complete!
-      advance_and_complete(@payment.order)
+
+      begin
+        @payment.complete!
+        advance_and_complete(@payment.order)
+      rescue StandardError
+        if @payment.response_code.present?
+          @payment.void
+        end
+
+        return [false, 'Something went wrong with the order. Your Paybright application has been voided. Try to order again.']
+      end
 
       [true, ""]
     end
