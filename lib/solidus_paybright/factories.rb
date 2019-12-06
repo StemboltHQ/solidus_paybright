@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :paybright_payment_method, class: Spree::PaymentMethod::Paybright do
     name "Paybright"
   end
